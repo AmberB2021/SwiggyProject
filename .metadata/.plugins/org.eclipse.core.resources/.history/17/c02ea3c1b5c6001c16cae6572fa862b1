@@ -1,0 +1,36 @@
+package com.swiggy.testscripts;
+
+import java.net.MalformedURLException;
+
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
+
+public class BeforeAfter extends Tools {
+	@BeforeTest
+	public void setUp(Scenario scenario) throws MalformedURLException {
+		Driver.init();
+		driver.manage().window().maximize();
+		driver.get("https://www.swiggy.com");
+}
+	@Test
+	(dataProvider = "loginDataProvider")
+	public void  testLogin(String username, String password) throws Exception {
+		SoftAssert softAssert =new SoftAssert();
+		ExcelReader excelReader =new ExcelReader ();
+		loginPage = new TestRunner (driver);
+		/*String userName =excelReader. readExcel().get(Constants.username);
+		String password= excelReader.readExcel().get(Constants.password);*/
+		loginPage.loginActivity(username, password,driver);
+		Thread.sleep(3000);
+		
+	@After
+	public void teardown() {
+		driver.quit();
+		
+	}{
+	}
+}
